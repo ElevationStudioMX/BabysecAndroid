@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.desarrollo_elevation.babysec.DB.DBHome;
 import com.example.desarrollo_elevation.viveelite.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,36 +24,21 @@ import java.util.ArrayList;
 
 public class Adaptergridrow extends BaseAdapter {
     Context context;
-    //int layoutResourceId;
-    // String[] titulo;
-    //int[] imagen;
-    //String [] imagen;
-
     ArrayList<String> imagen;
-    private  String name_database_elite= "elite_v15";
     private Cursor cursor;
-    int total_types;
-//    String []filepath;
-
-
-
+    private ImageView image;
     LayoutInflater inflater;
-    // ArrayList<ClipData.Item> data = new ArrayList<ClipData.Item>();
 
-    public Adaptergridrow(Context context, /*String[] titulo,*/ ArrayList<String> imagen )/*int layoutResourceId, ArrayList<ClipData.Item> data*/ {
-        // super(context, layoutResourceId, data); this.layoutResourceId = layoutResourceId;
-        this.context = context; //this.data = data;
-        //this.titulo = titulo;
+    public Adaptergridrow(Context context, ArrayList<String> imagen ) {
+        this.context = context;
         this.imagen = imagen;
-      //  this.total_types = imagen.size();
-
     }
 
     public int getCount() {
-        // return titulo.length;
-       // return imagen.length;
-
-        return imagen.size();
+        if (imagen != null) {
+            return imagen.size();
+        }
+        return 0;
     }
 
     @Override
@@ -66,64 +51,33 @@ public class Adaptergridrow extends BaseAdapter {
         return 0;
     }
 
-
     @Override
-
-    public View getView(int position, View Convertview, ViewGroup parent) {
-        TextView text;
-        ImageView image;
-
+    public View getView(final int position, View Convertview, ViewGroup parent) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemview = inflater.inflate(R.layout.row_grid, parent, false);
-
-
-        //text =(TextView)itemview.findViewById(R.id.item_text);
         image = (ImageView) itemview.findViewById(R.id.item_image);
-        Picasso.with(context).load(imagen.get(position)).resize(300, 0).into(image);
+        Picasso.with(context).load(imagen.get(position)).resize(300, 0).into(image, new Callback() {
+            @Override
+            public void onSuccess() {
+            }
 
+            @Override
+            public void onError() {
+            }
+        });
         DBHome home = new DBHome(context);
-
         SQLiteDatabase database = home.getWritableDatabase();
-
         String query ="select color_filter from sticker where sticker ='"+imagen.get(position)+"'";
         cursor = database.rawQuery(query, null);
 
-
-        while (cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             int col_filt = cursor.getInt(0);
-
             Log.v("LINEA 97", "LINEA 97 col_filt "+col_filt);
-
-            if(col_filt == 1)
-            {
+            if(col_filt == 1) {
                 image.setColorFilter(Color.WHITE);
             }
-            else
-            {
-
-            }
-
-
         }
-
         database.close();
-
-        //  text.setText(titulo[position]);
-        //image.setImageResource(imagen[position]);
-
-        /*Log.v("position", ""+imagen.get(position));
-
-        if(position > 2)
-        {
-            image.setColorFilter(Color.WHITE);
-        }*/
-
-
-
         return itemview;
-
-
-
     }
 }

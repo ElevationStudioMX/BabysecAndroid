@@ -1,6 +1,7 @@
 package com.example.desarrollo_elevation.babysec.gestures;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -59,7 +60,8 @@ public abstract class BaseGestureDetector {
 	 * @return
 	 */
     public boolean onTouchEvent(MotionEvent event){
-    	final int actionCode = event.getAction() & MotionEvent.ACTION_MASK;
+		Log.e("DevLog-DV","-------event-getAction-----> " + event.getAction());
+		final int actionCode = event.getAction() & MotionEvent.ACTION_MASK;
     	if (!mGestureInProgress) {
     		handleStartProgressEvent(actionCode, event);
     	} else {
