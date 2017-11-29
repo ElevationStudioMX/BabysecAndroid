@@ -8,8 +8,8 @@ android {
         applicationId "com.babysec.app"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,12 +38,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    // compile 'com.google.android.gms:play-services:9.0.2'
-    //compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.spotify.sdk:spotify-android-auth-1.0.0@aar'
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
     compile project(':web-api-spotify')
-    //compile(name: 'spotify-auth-1.0.0-beta12', ext: 'aar')
     compile project(path: ':helperyoutube')
     compile project(path: ':photogesturelibrary')
     compile files('libs/core-3.2.1.jar')
